@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Модель моніторингу міської мобільності. А+С Україна. Бета-версія</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css" rel="stylesheet" />
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 0; bottom: 0; width: 100%; };
+</style>
+</head>
+<body>
+
+<style>
+#mapboxgl-popup {
+max-width: 400px;
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+
+}
+</style>
+
+<a href="https://apluss.pro/"><div id="logo">
+
+<img src="C:\Users\shchigl\Desktop\a+c_logo_main.svg" alt="А+С Україна" width="120.4" height="44.8">
+
+</div>
+</a>
+
+
+<button id="button" type="button" onclick="toggleLegend();">УМОВНІ ПОЗНАЧЕННЯ</button>
+
+<style>
+#button {
+	cursor: pointer;
+	background-color: #48C1BB;
+	border-radius: 5px;
+	bottom: 40px;
+	font: bold 15px/20px Helvetica;
+	padding: 3px 20px 3px;
+	position: absolute;
+	opacity: 0.9;
+	right: 15px;
+	z-index: 1;
+	opacity: 0.9;
+}
+</style>
+
+<script>
+	function toggleLegend() {
+		var x = document.getElementById("legend");
+		if (x.style.display === "none") {
+			x.style.display = "block";
+			} else {
+			x.style.display = "none";
+			}
+}
+</script>
+
+
+<style>
+#logo {
+    position: absolute;
+    z-index: 100;
+    top: 15px;
+    left: 15px;
+}
+</style>
+
+<div id="legend" class="legend" style="display: none">
+<h4>Інтенсивності руху<p>індивідуального транспорту,</p><p>одиниць/добу</p></h4>
+<div><span style="background-color: #17232D"></span>більше 40 000</div>
+<div><span style="background-color: #1C313D"></span>30 001 - 40 000</div>
+<div><span style="background-color: #1E414C"></span>20 001 - 30 000</div>
+<div><span style="background-color: #20525B"></span>10 001 - 20 000</div>
+<div><span style="background-color: #206368"></span>5 001 - 10 000</div>
+<div><span style="background-color: #227574"></span>2 001 - 5 000</div>
+<div><span style="background-color: #28877D"></span>1 001 - 2 000</div>
+<div><span style="background-color: #329985"></span>501 - 1 000</div>
+<div><span style="background-color: #41AC8A"></span>100 - 500</div>
+<div><span style="background-color: #55BE8E"></span>менше 100</div>
+<h5>Джерело даних:<p>Модель міської мобільності, 2017 рік</p></h5>
+</div>
+
+<style>
+#legend {
+background-color: #fff;
+border-radius: 5px;
+bottom: 80px;
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+font: 15px/20px Helvetica;
+padding: 15px;
+position: absolute;
+opacity: 0.9;
+right: 15px;
+z-index: 1;
+}
+ 
+#legend h4 {
+margin: 0 0 10px;
+font: bold 18px/5px Helvetica;
+}
+
+#legend h5 {
+margin: 10px 0 -10px;
+font: bold 12px/5px Helvetica;
+}
+ 
+#legend div span {
+border-radius: 0%;
+display: inline-block;
+height: 12px;
+margin-right: 10px;
+width: 50px;
+}
+</style>
+ 
+
+<div id="map"></div>
+
+
+</style>
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoiYXBsdXNzLXVrcmFpbmUiLCJhIjoiY2s1NnUwNnhyMDZ2cjNmbWk0MHAwZTFtNyJ9.74AgY06hb35RJFM4Px-ACw';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/apluss-ukraine/ck56wjmc20s5s1cqgst9d0n81',
+        zoom: 10.5,
+        center: [30.52, 50.45],
+		minZoom: 9.5
+    });
+
+    
+	var nav = new mapboxgl.NavigationControl();
+	map.addControl(nav, 'top-right');
+
+	
+	map.on('load', function() {
+        map.addLayer({
+            'id': 'prt-flow',
+            'type': 'line',
+            'source': {
+                type: 'vector',
+                url: 'mapbox://apluss-ukraine.3kv8bji8'
+            },
+            'source-layer': 'prt-flow-5-9kztuj',
+			'minzoom': 9,
+            'layout': {
+                'line-join': 'round',
+                'line-cap': 'round'
+            },
+            "paint": {
+                "line-color": [
+                    "match",
+                    ["get", "atype"],
+					["10"],
+                    "#55BE8E",
+                    ["9"],
+                    "#41AC8A",
+                    ["8"],
+                    "#329985",
+                    ["7"],
+                    "#28877D",
+                    ["6"],
+                    "#227574",
+                    ["5"],
+                    "#206368",
+                    ["4"],
+                    "#20525B",
+                    ["3"],
+                    "#1E414C",
+                    ["2"],
+                    "#1C313D",
+                    ["1"],
+                    "#17232D",
+                    "hsl(0, 0%, 100%)"
+                ],
+                "line-opacity": 0.95,
+                "line-width": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    9.5,
+                    [
+                        "match",
+                        ["get", "atype"],
+						["10"],
+                        0.4,
+                        ["9"],
+                        0.6,
+                        ["8"],
+                        0.8,
+                        ["7"],
+                        1,
+                        ["6"],
+                        1.2,
+                        ["5"],
+                        1.4,
+                        ["4"],
+                        1.6,
+                        ["3"],
+                        1.8,
+                        ["2"],
+                        2,
+                        ["1"],
+                        2.2,
+                        0
+                    ],
+                    22,
+                    [
+                        "match",
+                        ["get", "atype"],
+						["10"],
+                        4,
+						["9"],
+                        6,
+                        ["8"],
+                        8,
+                        ["7"],
+                        10,
+                        ["6"],
+                        12,
+                        ["5"],
+                        14,
+                        ["4"],
+                        16,
+                        ["3"],
+                        18,
+                        ["2"],
+                        20,
+                        ["1"],
+                        22,
+                        1
+                    ]
+                ]
+            }
+        });
+		map.on('click', 'prt-flow', function(e) {
+			new mapboxgl.Popup()
+			.setLngLat(e.lngLat)
+			.setHTML('<strong>Інтенсивність руху</strong>' + '<p></p>' + e.features[0].properties.atype_name)
+			.addTo(map);
+			});
+ 
+			// Change the cursor to a pointer when the mouse is over the prt-flow layer.
+			map.on('mouseenter', 'prt-flow', function() {
+			map.getCanvas().style.cursor = 'pointer';
+			});
+ 
+			// Change it back to a pointer when it leaves.
+			map.on('mouseleave', 'prt-flow', function() {
+			map.getCanvas().style.cursor = '';
+			});
+ 
+    });
+</script>
+
+</body>
+</html>
