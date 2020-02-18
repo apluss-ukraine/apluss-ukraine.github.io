@@ -8,31 +8,78 @@
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css" rel="stylesheet" />
 <style>
 	body { margin: 0; padding: 0; }
-	#map { position: absolute; top: 0; bottom: 0; width: 100%; };
+	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
 </style>
 </head>
 <body>
 
+
+
+
+<div id='menu'>
+
+    <h3><legend>Шари даних</legend></h3>
+    <div><input id='prt-flow' type='radio' name='rtoggle' value='prt-flow' >
+    <label for='prt-flow'>Інтенсивності руху індивідуального транспорту (ІТ)</label></div>
+    <div><input id='metro-flow' type='radio' name='rtoggle' value='metro-flow' checked='checked' >
+    <label for='metro-flow'>Пасажиропотоки метро</label></div>
+</div>
+
+
+<style>
+#menu {
+background-color: #fff;
+box-sizing: border-box;
+position: absolute;
+z-index: 1;
+padding: 5px 5px 5px;
+top: 15px;
+right: 15px;
+border-radius: 5px;
+max-width: 230px;
+font: 14px/18px Helvetica;
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+opacity: 0.9;
+}
+ 
+#menu h3 {
+margin: 0 0 -4px;
+
+font: bold 15px/28px Helvetica;
+}
+</style>
+ 
+
+
+
+<style>
+	.mapboxgl-ctrl-pitchtoggle-3d {background-image: url("https://apluss-ukraine.github.io/apluss-ukraine.github.io/img/3d.svg");}
+	.mapboxgl-ctrl-pitchtoggle-2d {background-image: url("https://apluss-ukraine.github.io/apluss-ukraine.github.io/img/2d.svg");}
+</style>
+
+
 <style>
 #mapboxgl-popup {
-max-width: 400px;
-font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+max-width: 550px;
+font: 12px/12px Helvetica;
 
 }
 </style>
 
 <a href="https://apluss.pro/"><div id="logo">
 
-<img src="https://apluss-ukraine.github.io/apluss-ukraine.github.io/img/a+c_logo_main.svg" alt="А+С Україна" width="120.4" height="44.8">
+<img src="https://apluss-ukraine.github.io/apluss-ukraine.github.io/img/a+c_logo_main.svg" alt="А+С Україна" width="80.55" height="30">
 
 </div>
 </a>
 
 
-<button id="button" type="button" onclick="toggleLegend();">УМОВНІ ПОЗНАЧЕННЯ</button>
+
+
+<button id="buttonw" type="button" onclick="toggleLegendw();">УМОВНІ ПОЗНАЧЕННЯ</button>
 
 <style>
-#button {
+#buttonw {
 	cursor: pointer;
 	background-color: #48C1BB;
 	border-radius: 5px;
@@ -42,21 +89,53 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 	position: absolute;
 	opacity: 0.9;
 	right: 15px;
-	z-index: 1;
-	opacity: 0.9;
+	z-index: 100;
 }
 </style>
 
+
+<button id="buttonww" type="button" onclick="toggleLegendww();">УМОВНІ ПОЗНАЧЕННЯ</button>
+
+<style>
+#buttonww {
+	cursor: pointer;
+	background-color: #48C1BB;
+	border-radius: 5px;
+	bottom: 40px;
+	font: bold 15px/20px Helvetica;
+	padding: 3px 20px 3px;
+	position: absolute;
+	opacity: 0.9;
+	right: 15px;
+	z-index: 99;
+}
+</style>
+
+
 <script>
-	function toggleLegend() {
-		var x = document.getElementById("legend");
-		if (x.style.display === "none") {
-			x.style.display = "block";
+	function toggleLegendw() {
+		var w = document.getElementById("prt-flow-legend");
+		if (w.style.display === "none") {
+			w.style.display = "block";
 			} else {
-			x.style.display = "none";
+			w.style.display = "none";
 			}
 }
 </script>
+
+
+<script>
+	function toggleLegendww() {
+		var ww = document.getElementById("metro-flow-legend");
+		if (ww.style.display === "none") {
+			ww.style.display = "block";
+			} else {
+			ww.style.display = "none";
+			}
+}
+</script>
+
+
 
 
 <style>
@@ -68,49 +147,107 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 </style>
 
-<div id="legend" class="legend" style="display: none">
-<h4>Інтенсивності руху<p>індивідуального транспорту,</p><p>одиниць/добу</p></h4>
-<div><span style="background-color: #17232D"></span>більше 40 000</div>
-<div><span style="background-color: #1C313D"></span>30 001 - 40 000</div>
-<div><span style="background-color: #1E414C"></span>20 001 - 30 000</div>
-<div><span style="background-color: #20525B"></span>10 001 - 20 000</div>
-<div><span style="background-color: #206368"></span>5 001 - 10 000</div>
-<div><span style="background-color: #227574"></span>2 001 - 5 000</div>
-<div><span style="background-color: #28877D"></span>1 001 - 2 000</div>
-<div><span style="background-color: #329985"></span>501 - 1 000</div>
-<div><span style="background-color: #41AC8A"></span>100 - 500</div>
-<div><span style="background-color: #55BE8E"></span>менше 100</div>
+<div id="prt-flow-legend" class="legend" style="display: none">
+<h4>Інтенсивності руху ІТ,<p>одиниць/добу</p></h4>
+<div><span style="background-color: #172D33"></span>більше 60 000</div>
+<div><span style="background-color: #1D383F"></span>50 001 - 60 000</div>
+<div><span style="background-color: #22444B"></span>40 001 - 50 000</div>
+<div><span style="background-color: #275057"></span>30 001 - 40 000</div>
+<div><span style="background-color: #2C5C63"></span>20 001 - 30 000</div>
+<div><span style="background-color: #31696E"></span>10 001 - 20 000</div>
+<div><span style="background-color: #36767A"></span>5 001 - 10 000</div>
+<div><span style="background-color: #3B8486"></span>2 001 - 5 000</div>
+<div><span style="background-color: #409291"></span>1 001 - 2 000</div>
+<div><span style="background-color: #46A09C"></span>501 - 1 000</div>
+<div><span style="background-color: #4CAEA6"></span>100 - 500</div>
+<div><span style="background-color: #52BCB1"></span>менше 100</div>
 <h5>Джерело даних:<p>Модель міської мобільності, 2017 рік</p></h5>
 </div>
 
+<div id="metro-flow-legend" class="legend" style="display: block">
+<h4>Пасажиропотоки метро,<p>осіб/добу</p></h4>
+<div><span style="background-color: #582116"></span>більше 350 000</div>
+<div><span style="background-color: #622619"></span>325 001 - 350 000</div>
+<div><span style="background-color: #6D2B1D"></span>300 001 - 325 000</div>
+<div><span style="background-color: #783021"></span>275 001 - 300 000</div>
+<div><span style="background-color: #833524"></span>250 001 - 275 000</div>
+<div><span style="background-color: #8E3A28"></span>225 001 - 250 000</div>
+<div><span style="background-color: #99402C"></span>200 001 - 225 000</div>
+<div><span style="background-color: #A54530"></span>175 001 - 200 000</div>
+<div><span style="background-color: #B14B34"></span>150 001 - 175 000</div>
+<div><span style="background-color: #BD5038"></span>125 001 - 150 000</div>
+<div><span style="background-color: #C9563C"></span>100 001 - 125 000</div>
+<div><span style="background-color: #D55B40"></span>75 001 - 100 000</div>
+<div><span style="background-color: #E16144"></span>50 000 - 75 000</div>
+<div><span style="background-color: #ED6748"></span>менше 50 000</div>
+<h5>Джерело даних:<p>Модель міської мобільності, 2017 рік</p></h5>
+</div>
+
+
+
+
 <style>
-#legend {
+#prt-flow-legend {
 background-color: #fff;
 border-radius: 5px;
 bottom: 80px;
 box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-font: 15px/20px Helvetica;
-padding: 15px;
+font: 14px/17px Helvetica;
+padding: 12px;
 position: absolute;
 opacity: 0.9;
 right: 15px;
 z-index: 1;
 }
  
-#legend h4 {
-margin: 0 0 10px;
-font: bold 18px/5px Helvetica;
+#prt-flow-legend h4 {
+margin: 0 0 -4px;
+font: bold 15px/4px Helvetica;
 }
 
-#legend h5 {
-margin: 10px 0 -10px;
-font: bold 12px/5px Helvetica;
+#prt-flow-legend h5 {
+margin: 8px 0 -12px;
+font: bold 11px/5px Helvetica;
 }
  
-#legend div span {
+#prt-flow-legend div span {
 border-radius: 0%;
 display: inline-block;
-height: 12px;
+height: 8px;
+margin-right: 10px;
+width: 50px;
+}
+</style>
+
+
+<style>
+#metro-flow-legend {
+background-color: #fff;
+border-radius: 5px;
+bottom: 80px;
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+font: 14px/17px Helvetica;
+padding: 12px;
+position: absolute;
+opacity: 0.9;
+right: 15px;
+z-index: 1;
+}
+ 
+#metro-flow-legend h4 {
+margin: 0 0 -4px;
+font: bold 15px/4px Helvetica;
+}
+
+#metro-flow-legend h5 {
+margin: 8px 0 -12px;
+font: bold 11px/5px Helvetica;
+}
+ 
+#metro-flow-legend div span {
+border-radius: 0%;
+display: inline-block;
+height: 8px;
 margin-right: 10px;
 width: 50px;
 }
@@ -121,20 +258,79 @@ width: 50px;
 
 
 </style>
+
+
+
+
+
 <script>
 	mapboxgl.accessToken = 'pk.eyJ1IjoiYXBsdXNzLXVrcmFpbmUiLCJhIjoiY2s1NnUwNnhyMDZ2cjNmbWk0MHAwZTFtNyJ9.74AgY06hb35RJFM4Px-ACw';
     var map = new mapboxgl.Map({
         container: 'map',
-        style: 'mapbox://styles/apluss-ukraine/ck56wjmc20s5s1cqgst9d0n81',
+        style: 'mapbox://styles/apluss-ukraine/ck6jaqhmp14zn1ip2g1pgkl5q',
         zoom: 10.5,
         center: [30.52, 50.45],
 		minZoom: 9.5
     });
 
-    
-	var nav = new mapboxgl.NavigationControl();
-	map.addControl(nav, 'top-right');
+	
+	
+	
+	class PitchToggle {
+		constructor({bearing = 10, pitch = 50, minpitchzoom = null}) {
+        this._bearing = bearing;
+        this._pitch = pitch;
+        this._minpitchzoom = minpitchzoom;
+    }
 
+    onAdd(map) {
+        this._map = map;
+        let _this = this; 
+
+        this._btn = document.createElement('button');
+        this._btn.className = 'mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d';
+        this._btn.type = 'button';
+        this._btn['aria-label'] = 'Toggle Pitch';
+        this._btn.onclick = function() { 
+            if (map.getPitch() === 0) {
+                let options = {pitch: _this._pitch, bearing: _this._bearing};
+                if (_this._minpitchzoom && map.getZoom() > _this._minpitchzoom) {
+                    options.zoom = _this._minpitchzoom;
+                }
+                map.easeTo(options);
+                _this._btn.className = 'mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d';
+            } else {
+                map.easeTo({pitch: 0, bearing: 0});
+                _this._btn.className = 'mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d';
+            } 
+        };
+        
+
+        this._container = document.createElement('div');
+        this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group';
+        this._container.appendChild(this._btn);
+
+        return this._container;
+    }
+
+    onRemove() {
+        this._container.parentNode.removeChild(this._container);
+        this._map = undefined;
+    }
+
+}
+	
+	
+	
+	
+	var nav = new mapboxgl.NavigationControl();
+	map.addControl(nav, 'bottom-left');
+	
+	map.addControl(new PitchToggle({ minpitchzoom: null }), "bottom-left");
+	
+	
+
+	
 	
 	map.on('load', function() {
         map.addLayer({
@@ -142,38 +338,43 @@ width: 50px;
             'type': 'line',
             'source': {
                 type: 'vector',
-                url: 'mapbox://apluss-ukraine.3kv8bji8'
+                url: 'mapbox://apluss-ukraine.6ujsfyv5'
             },
-            'source-layer': 'prt-flow-5-9kztuj',
+            'source-layer': 'prt-flow-dkuutu',
 			'minzoom': 9,
             'layout': {
                 'line-join': 'round',
-                'line-cap': 'round'
+                'line-cap': 'round',
+				'visibility': 'none'
             },
             "paint": {
                 "line-color": [
                     "match",
-                    ["get", "atype"],
-					["10"],
-                    "#55BE8E",
-                    ["9"],
-                    "#41AC8A",
-                    ["8"],
-                    "#329985",
-                    ["7"],
-                    "#28877D",
-                    ["6"],
-                    "#227574",
-                    ["5"],
-                    "#206368",
-                    ["4"],
-                    "#20525B",
-                    ["3"],
-                    "#1E414C",
+                    ["get", "type"],
+					["1"],
+                    "#52BCB1",
                     ["2"],
-                    "#1C313D",
-                    ["1"],
-                    "#17232D",
+                    "#4CAEA6",
+                    ["3"],
+                    "#46A09C",
+                    ["4"],
+                    "#409291",
+                    ["5"],
+                    "#3B8486",
+                    ["6"],
+                    "#36767A",
+                    ["7"],
+                    "#31696E",
+                    ["8"],
+                    "#2C5C63",
+                    ["9"],
+                    "#275057",
+                    ["10"],
+                    "#22444B",
+					["11"],
+                    "#1D383F",
+                    ["12"],
+                    "#172D33",
                     "hsl(0, 0%, 100%)"
                 ],
                 "line-opacity": 0.95,
@@ -184,62 +385,244 @@ width: 50px;
                     9.5,
                     [
                         "match",
-                        ["get", "atype"],
-						["10"],
+                        ["get", "type"],
+						["1"],
                         0.4,
-                        ["9"],
-                        0.6,
-                        ["8"],
-                        0.8,
-                        ["7"],
-                        1,
-                        ["6"],
-                        1.2,
-                        ["5"],
-                        1.4,
-                        ["4"],
-                        1.6,
-                        ["3"],
-                        1.8,
                         ["2"],
+                        0.6,
+                        ["3"],
+                        0.8,
+                        ["4"],
+                        1,
+                        ["5"],
+                        1.2,
+                        ["6"],
+                        1.4,
+                        ["7"],
+                        1.6,
+                        ["8"],
+                        1.8,
+                        ["9"],
                         2,
-                        ["1"],
+                        ["10"],
                         2.2,
+						["11"],
+                        2.4,
+                        ["12"],
+                        2.6,
                         0
                     ],
                     22,
                     [
                         "match",
-                        ["get", "atype"],
-						["10"],
+                        ["get", "type"],
+						["1"],
                         4,
-						["9"],
+						["2"],
                         6,
-                        ["8"],
-                        8,
-                        ["7"],
-                        10,
-                        ["6"],
-                        12,
-                        ["5"],
-                        14,
-                        ["4"],
-                        16,
                         ["3"],
+                        8,
+                        ["4"],
+                        10,
+                        ["5"],
+                        12,
+                        ["6"],
+                        14,
+                        ["7"],
+                        16,
+                        ["8"],
                         18,
-                        ["2"],
+                        ["9"],
                         20,
-                        ["1"],
+                        ["10"],
                         22,
+						["11"],
+                        24,
+                        ["12"],
+                        26,
                         1
                     ]
                 ]
             }
         });
+
+
+        map.addLayer({
+            'id': 'metro-flow',
+            'type': 'line',
+            'source': {
+                type: 'vector',
+                url: 'mapbox://apluss-ukraine.5rgfoptn'
+            },
+            'source-layer': 'metro-flow-2-91appl',
+			'minzoom': 9,
+            'layout': {
+                'line-join': 'round',
+                'line-cap': 'round'
+				
+            },
+            "paint": {
+                "line-color": [
+                    "match",
+                    ["get", "type"],
+					["1"],
+                    "#ED6748",
+                    ["2"],
+                    "#E16144",
+                    ["3"],
+                    "#D55B40",
+                    ["4"],
+                    "#C9563C",
+                    ["5"],
+                    "#BD5038",
+                    ["6"],
+                    "#B14B34",
+                    ["7"],
+                    "#A54530",
+                    ["8"],
+                    "#99402C",
+                    ["9"],
+                    "#8E3A28",
+                    ["10"],
+                    "#833524",
+					["11"],
+                    "#783021",
+                    ["12"],
+                    "#6D2B1D",
+                    ["13"],
+                    "#622619",
+                    ["14"],
+                    "#582116",
+                    "hsl(0, 0%, 100%)"
+                ],
+                "line-opacity": 0.95,
+                "line-width": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    9.5,
+                    [
+                        "match",
+                        ["get", "type"],
+						["1"],
+                        1.2,
+                        ["2"],
+                        1.6,
+                        ["3"],
+                        2,
+                        ["4"],
+                        2.4,
+                        ["5"],
+                        2.8,
+                        ["6"],
+                        3.2,
+                        ["7"],
+                        3.6,
+                        ["8"],
+                        4,
+                        ["9"],
+                        4.4,
+                        ["10"],
+                        4.8,
+						["11"],
+                        5.2,
+                        ["12"],
+                        5.6,
+                        ["13"],
+                        6,
+                        ["14"],
+                        6.4,
+                        0
+                    ],
+                    22,
+                    [
+                        "match",
+                        ["get", "type"],
+						["1"],
+                        5,
+						["2"],
+                        7,
+                        ["3"],
+                        9,
+                        ["4"],
+                        11,
+                        ["5"],
+                        13,
+                        ["6"],
+                        15,
+                        ["7"],
+                        17,
+                        ["8"],
+                        19,
+                        ["9"],
+                        21,
+                        ["10"],
+                        23,
+						["11"],
+                        25,
+                        ["12"],
+                        27,
+                        ["13"],
+                        29,
+                        ["14"],
+                        31,
+                        1
+                    ]
+                ]
+            }
+        });
+
+
+
+
+var rtoggle = 'prt-flow'
+
+var layerList = document.getElementById('menu');
+var inputs = layerList.getElementsByTagName('input');
+var flowLegendEl = document.getElementById('prt-flow-legend');
+var flowwLegendEl = document.getElementById('metro-flow-legend');
+var flowButtonEl = document.getElementById('buttonw');
+var flowwButtonEl = document.getElementById('buttonww');
+
+
+
+function switchLayer(layer) {
+    var layerId = layer.target.id;
+    // set layer id to a menu value
+    // If id = Bed
+       if (layerId == 'prt-flow') {
+          map.setLayoutProperty('prt-flow', 'visibility', 'visible');
+          map.setLayoutProperty('metro-flow', 'visibility', 'none');
+		  flowLegendEl.style.display = 'block';
+          flowwLegendEl.style.display = 'none';
+		  flowButtonEl.style.display = 'block';
+		  flowwButtonEl.style.display = 'none';
+        }
+        // If id = Bath
+       if (layerId == 'metro-flow') {
+         map.setLayoutProperty('prt-flow', 'visibility', 'none');
+         map.setLayoutProperty('metro-flow', 'visibility', 'visible');
+		 flowLegendEl.style.display = 'none';
+         flowwLegendEl.style.display = 'block';
+		 flowButtonEl.style.display = 'none';
+		 flowwButtonEl.style.display = 'block';
+        }
+}
+
+
+for (var i = 0; i < inputs.length; i++) {
+    inputs[i].onclick = switchLayer;
+}
+
+
+
+
+
+
 		map.on('click', 'prt-flow', function(e) {
 			new mapboxgl.Popup()
 			.setLngLat(e.lngLat)
-			.setHTML('<strong>Інтенсивність руху</strong>' + '<p></p>' + e.features[0].properties.atype_name)
+			.setHTML('<strong>Інтенсивність руху</strong>' + '<p></p>' + e.features[0].properties.type_name)
 			.addTo(map);
 			});
  
@@ -250,6 +633,26 @@ width: 50px;
  
 			// Change it back to a pointer when it leaves.
 			map.on('mouseleave', 'prt-flow', function() {
+			map.getCanvas().style.cursor = '';
+			});
+			
+			
+		map.on('click', 'metro-flow', function(e) {
+			new mapboxgl.Popup()
+			.setLngLat(e.lngLat)
+			.setHTML(
+			'<strong>Пасажиропотоки</strong>' + '<p></p>' + e.features[0].properties.flow + ' осіб/добу'
+			)
+			.addTo(map);
+			});
+ 
+			// Change the cursor to a pointer when the mouse is over the prt-flow layer.
+			map.on('mouseenter', 'metro-flow', function() {
+			map.getCanvas().style.cursor = 'pointer';
+			});
+ 
+			// Change it back to a pointer when it leaves.
+			map.on('mouseleave', 'metro-flow', function() {
 			map.getCanvas().style.cursor = '';
 			});
  
